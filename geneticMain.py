@@ -5,27 +5,29 @@ def main():
     #-------------
     #testing block
     #-------------
-    #testNumbersToArithmetic() #success
-    #testTranslate() #success
-    testArithmeticArray()
+    #testNumbersToArithmetic()
+    #testTranslate()
+    #testArithmeticArray()
     #testToRealExpression()
+    #testComputeSum()
 
     #-------------
     #running block
     #-------------
-    # chromosomesInGeneration = 25
-    # crossoverRate = 0.7
-    # mutationRate = 0.01
-    #
-    # generation = []
-    # for x in range(0, chromosomesInGeneration):
-    #     generation.append(Chromosome())
-    #
-    # fitness = []
-    # for x in range(0, chromosomesInGeneration):
+    chromosomesInGeneration = 25
+    crossoverRate = 0.7
+    mutationRate = 0.01
+    targetNum = 1
+
+    generation = []
+    for x in range(0, chromosomesInGeneration):
+        generation.append(Chromosome())
+
+    testUpdateFitness(generation, targetNum)
 
 
     #check fitness
+
     #roulette select for breeding
     #etc.
 

@@ -18,8 +18,8 @@ class Chromosome:
 
     #randomize all genes in the dnArray string
     def randomizeGenes(self):
-        for x in range(0 , 4*self.chromosomeSize):
-            gene = random.randrange(0, 1)
+        for x in range(0 , self.geneSize * self.chromosomeSize):
+            gene = random.randrange(0, 2)
             self.dnArray[x] = gene
 
     '''
@@ -38,3 +38,36 @@ class Chromosome:
             #after finished with a single gene, translate with bitsToArithmetic
             #and transfer to the arithmeticArray
             self.arithmeticArray.append(bitsToArithmetic(bitString))
+            #reset bitString so we don't get huge strings of bits :)
+            bitString = ""
+
+    def computeSum(self):
+        realExpressionArray = toRealExpression(self.arithmeticArray)
+        if(realExpressionArray[0] == 'n/a'):
+            return -1
+        sum = float(realExpressionArray[0])
+        counter = 1
+        while(counter < len(realExpressionArray)):
+            if(realExpressionArray[counter] == '+'):
+                sum += float(realExpressionArray[counter+1])
+            if(realExpressionArray[counter] == '-'):
+                sum -= float(realExpressionArray[counter+1])
+            if(realExpressionArray[counter] == '*'):
+                sum *= float(realExpressionArray[counter+1])
+            if(realExpressionArray[counter] == '/'):
+                sum /= float(realExpressionArray[counter+1])
+            counter += 2
+
+        return sum
+
+    def updateFitness(self, targetNum):
+        #if the denominator isn't 0...
+        if( abs(targetNum - self.computeSum()) != 0 ):
+            self.fitness = 1 / abs(targetNum - self.computeSum())
+        else:
+            self.fitness = 0
+
+    def recombinate(self, otherChromosome):
+        bitPick = random.randrange(0, geneSize*chromosomeSize)
+            for x in range(bitPick, geneSize*chromosomeSize):
+                
