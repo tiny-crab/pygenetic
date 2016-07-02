@@ -10,21 +10,28 @@ def main():
     #testArithmeticArray()
     #testToRealExpression()
     #testComputeSum()
-    #testRecombinate() 
+    #testRecombinate()
 
     #-------------
     #running block
     #-------------
     chromosomesInGeneration = 25
     crossoverRate = 0.7
-    mutationRate = 0.01
+    mutationRate = 0.001
     targetNum = 1
 
-    generation = []
-    for x in range(0, chromosomesInGeneration):
-        generation.append(Chromosome())
+    #instantiate first generation
+    generation = instantiateGeneration(chromosomesInGeneration)
+    testRouletteSelection(5)
+
+    #flag to see if algorithm has made any progress
+    finished = False
+    while(finished == False):
+        finished = True
 
     #testUpdateFitness(generation, targetNum)
+
+
 
 
     #check fitness

@@ -1,6 +1,13 @@
 from genetic import *
 from chromosome import Chromosome
 
+def instantiateGeneration(chromosomesInGeneration):
+    generation = []
+    for x in range(0, chromosomesInGeneration):
+        generation.append(Chromosome())
+
+    return generation
+
 def testNumbersToArithmetic():
     for x in range(-10,20):
         print(bitsToArithmetic("{0:b}".format(x)))
@@ -41,3 +48,7 @@ def testRecombinate():
     first.recombinate(second)
     print(first.dnArray)
     print(second.dnArray)
+
+def testRouletteSelection(chromosomesInGeneration):
+    generation = instantiateGeneration(chromosomesInGeneration)
+    rouletteWheelSelection(generation)
