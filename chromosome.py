@@ -68,6 +68,10 @@ class Chromosome:
             self.fitness = 0
 
     def recombinate(self, otherChromosome):
-        bitPick = random.randrange(0, geneSize*chromosomeSize)
-            for x in range(bitPick, geneSize*chromosomeSize):
-                
+        bitPick = random.randrange(0, self.geneSize*self.chromosomeSize)
+        print(bitPick)
+        for x in range(bitPick, self.geneSize*self.chromosomeSize):
+            #swap everything past the bitPick point
+            temp = self.dnArray[x]
+            self.dnArray[x] = otherChromosome.dnArray[x]
+            otherChromosome.dnArray[x] = temp

@@ -32,3 +32,12 @@ def testUpdateFitness(generation, targetNum):
         print("Sum = " + str(generation[x].computeSum()))
         generation[x].updateFitness(targetNum)
         print("Fitness = " + str(generation[x].fitness) + "\n\n" )
+
+def testRecombinate():
+    first = Chromosome()
+    second = Chromosome()
+    print(first.dnArray)
+    print(second.dnArray)
+    first.recombinate(second)
+    print(first.dnArray)
+    print(second.dnArray)

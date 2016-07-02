@@ -10,6 +10,7 @@ def main():
     #testArithmeticArray()
     #testToRealExpression()
     #testComputeSum()
+    #testRecombinate() 
 
     #-------------
     #running block
@@ -23,7 +24,7 @@ def main():
     for x in range(0, chromosomesInGeneration):
         generation.append(Chromosome())
 
-    testUpdateFitness(generation, targetNum)
+    #testUpdateFitness(generation, targetNum)
 
 
     #check fitness
