@@ -49,6 +49,8 @@ def testRecombinate():
     print(first.dnArray)
     print(second.dnArray)
 
-def testRouletteSelection(chromosomesInGeneration):
+def testRouletteSelection(chromosomesInGeneration, targetNum, crossoverRate):
     generation = instantiateGeneration(chromosomesInGeneration)
-    rouletteWheelSelection(generation)
+    for x in range(0, len(generation)):
+        generation[x].updateFitness(targetNum)
+    rouletteWheelSelection(generation,crossoverRate)

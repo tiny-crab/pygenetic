@@ -1,5 +1,6 @@
 from genetic import *
 from testGenetic import *
+from chromosome import Chromosome
 
 def main():
     #-------------
@@ -22,7 +23,7 @@ def main():
 
     #instantiate first generation
     generation = instantiateGeneration(chromosomesInGeneration)
-    testRouletteSelection(5)
+    testRouletteSelection(5, 20, crossoverRate)
 
     #flag to see if algorithm has made any progress
     finished = False

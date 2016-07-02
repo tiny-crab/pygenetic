@@ -1,4 +1,5 @@
 import random
+from genetic import *
 
 class Chromosome:
 
@@ -22,33 +23,6 @@ class Chromosome:
             gene = random.randrange(0, 2)
             self.dnArray[x] = gene
 
-    '''
-    function RECEIVES string and RETURNS string
-    converts a 4 bit string into a decimal or operator string
-    '''
-    def bitsToArithmetic(bitString):
-        switcher = {
-            '0000': '0',
-            '0001': '1',
-            '0010': '2',
-            '0011': '3',
-            '0100': '4',
-            '0101': '5',
-            '0110': '6',
-            '0111': '7',
-            '1000': '8',
-            '1001': '9',
-            '1010': '+',
-            '1011': '-',
-            '1100': '*',
-            '1101': '/',
-            '1110': 'n/a',
-            '1111': 'n/a',
-        }
-        #either transform a 4 bit string into a value listed in dictionary,
-        #or default to convert it into an int!
-        return switcher.get(bitString, 'n/a')
-
 
     '''
     function RECEIVES a chromosome
@@ -68,6 +42,7 @@ class Chromosome:
             self.arithmeticArray.append(bitsToArithmetic(bitString))
             #reset bitString so we don't get huge strings of bits :)
             bitString = ""
+
 
     def computeSum(self):
         realExpressionArray = toRealExpression(self.arithmeticArray)
@@ -114,33 +89,7 @@ class Chromosome:
     #the sumSoFar provides boundaries for the pick (essentially defining pie chart)
     #This will probably cause issues with [n/a] strings... how to fix?
     def updateProbability(self, totalFitness, sumSoFar):
-        self.probability = fitness/totalFitness + sumSoFar
-
-    '''
-    function RECEIVES a length 8 array of numeric and operator strings
-    and RETURNS an array of "real" expression
-    '''
-    def toRealExpression(arithmeticArray):
-        #if 0, it's looking for a number next
-        #if 1, it's looking for an operator next
-        found = 0;
-        realExpressionArray = []
-        #check through arithmeticArray to pick out alternating numbers and operators
-        for x in range(0, len(arithmeticArray)):
-            if(found == 0 and arithmeticArray[x] >= '0' and arithmeticArray[x] <= '9'):
-                found = 1
-                realExpressionArray.append(arithmeticArray[x])
-            if(found == 1 and
-               (arithmeticArray[x] == '+' or
-                arithmeticArray[x] == '-' or
-                arithmeticArray[x] == '*' or
-                arithmeticArray[x] == '/')
-              ):
-                found = 0
-                realExpressionArray.append(arithmeticArray[x])
-
-        #if the last symbol is an operator
-        if(found == 0):
-            realExpressionArray = ['n/a']
-
-        return realExpressionArray
+        if(toRealExpression(self.arithmeticArray) == 'n/a'):
+            self.probability = 0
+            return
+        self.probability = self.fitness/totalFitness
