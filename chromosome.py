@@ -65,24 +65,26 @@ class Chromosome:
 
     def updateFitness(self, targetNum):
         #if the denominator isn't 0...
-        if( abs(targetNum - self.computeSum()) != 0 ):
-            self.fitness = 1 / abs(targetNum - self.computeSum())
-        else:
+        if( abs(targetNum - self.computeSum()) == 0 ):
+            #throw a flag here! Found a solution
             self.fitness = 0
+        else:
+            self.fitness = 1 / abs(targetNum - self.computeSum())
 
     def recombinate(self, otherChromosome):
         bitPick = random.randrange(0, self.geneSize*self.chromosomeSize)
-        print(bitPick)
         for x in range(bitPick, self.geneSize*self.chromosomeSize):
             #swap everything past the bitPick point
             temp = self.dnArray[x]
             self.dnArray[x] = otherChromosome.dnArray[x]
             otherChromosome.dnArray[x] = temp
+        self.translate()
+        otherChromosome.translate()
 
     def mutate(self, mutationRate):
         for x in range(0, self.geneSize * self.chromosomeSize):
-            gamble = random.randrange(0, 1/mutationRate)
-            if(gamble == 1):
+            gamble = random.random()
+            if(gamble < mutationRate):
                 self.dnArray[x] = not self.dnArray[x]
 
     #this probability ONLY is calculated in the context of a generation

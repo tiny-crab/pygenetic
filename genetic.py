@@ -62,31 +62,33 @@ function RECEIVES an array of Chromosomes
 and RETURNS a recombinated Chromosome (for next generation)
 '''
 def rouletteWheelSelection(generation, crossoverRate):
-    #total up generation's fitness
-    totalFitness = 0
-    for x in range(0, len(generation)):
-        totalFitness += generation[x].fitness
-    #update probabilities for each Chromosome
-    #this sum of probabilities should equal 1
-    sum = 0
-    probabilitiesArray = []
-    for x in range(0, len(generation)):
-        generation[x].updateProbability(totalFitness, sum)
 
-        #print("Chromosome["+str(x)+"].probability = " + str(generation[x].probability))
-        
-        sum += generation[x].probability
-        probabilitiesArray.append(sum)
+    probabilitiesArray = updateProbabilityArray(generation)
 
     first = rouletteDartPick(generation, probabilitiesArray)
+    #print toRealExpression(first.arithmeticArray)
+
+    generation.remove(first)
+
+    probabilitiesArray = updateProbabilityArray(generation)
+
     second = rouletteDartPick(generation, probabilitiesArray)
+    #print toRealExpression(second.arithmeticArray)
+
     if(random.random() < crossoverRate):
-        if(toRealExpression(second.arithmeticArray) == 'n/a'):
+        if(toRealExpression(second.arithmeticArray)[0] == 'n/a'):
+            #print "first!"
             return first
-        elif(toRealExpression(second.arithmeticArray) == 'n/a'):
+        elif(toRealExpression(first.arithmeticArray)[0] == 'n/a'):
+            #print "second!"
             return second
         else:
-            return first.recombinate(second)
+            #print "recombinate!"
+            first.recombinate(second)
+            return first
+    else:
+        #print "didn't get to recombinate!"
+        return first
 
 '''
 function RECEIVES the generation and its respective "pie chart" of probabilities
@@ -104,6 +106,36 @@ def rouletteDartPick(generation, probabilitiesArray):
     #generation[x].probability < rand and generation[x+1].probablity > rand
     for x in range(0, len(generation)):
         if(probabilitiesArray[x] < rouletteDart and probabilitiesArray[x+1] > rouletteDart):
+            #print x
             return generation[x]
 
+    #print 0
     return generation[0]
+
+
+'''
+function RECEIVES the generation and RETURNS an updated probability array
+'''
+def updateProbabilityArray(generation):
+    #total up generation's fitness
+    totalFitness = 0
+    for x in range(0, len(generation)):
+        totalFitness += generation[x].fitness
+    #update probabilities for each Chromosome
+    #this sum of probabilities should equal 1
+
+    sum = 0
+    probabilitiesArray = []
+    for x in range(0, len(generation)):
+        generation[x].updateProbability(totalFitness, sum)
+
+        #print("Chromosome["+str(x)+"].probability = " + str(generation[x].probability))
+
+        sum += generation[x].probability
+        probabilitiesArray.append(sum)
+
+    return probabilitiesArray
+
+def mutateGeneration(generation, mutationRate):
+    for x in range(0, len(generation)):
+        generation[x].mutate(mutationRate)

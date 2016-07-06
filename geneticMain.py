@@ -22,13 +22,20 @@ def main():
     targetNum = 1
 
     #instantiate first generation
-    generation = instantiateGeneration(chromosomesInGeneration)
-    testRouletteSelection(5, 20, crossoverRate)
-
+    generation = instantiateGeneration(chromosomesInGeneration,targetNum)
+    printGeneration(generation)
     #flag to see if algorithm has made any progress
     finished = False
     while(finished == False):
-        finished = True
+        #nextGen will be filled with chromosomes selected from init generation
+        nextGen = []
+        for x in range (0, chromosomesInGeneration):
+            someChromosome = rouletteWheelSelection(generation, crossoverRate)
+            nextGen.append(someChromosome)
+        mutateGeneration(nextGen, mutationRate)
+        printGeneration(nextGen)
+        break
+
 
     #testUpdateFitness(generation, targetNum)
 
